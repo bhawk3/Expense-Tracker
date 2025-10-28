@@ -13,7 +13,7 @@ const expenses = [
 	{ id: 10, name: "Phone Bill", amount: 60.0, category: "Utilities", date: "10-07-2025" },
 ];
 //Sort data by amount from highest to lowest
-
+expenses.sort((a, b) => a.amount - b.amount);
 //Sort data by category
 
 //Sort data by date
