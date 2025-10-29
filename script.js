@@ -1,4 +1,8 @@
+//Save data to localStorage
+
 const table = document.getElementById("table");
+const categorySortBtn = document.getElementById("category-btn");
+const amountSortBtn = document.getElementById("amount-btn");
 
 const expenses = [
 	{ id: 1, name: "Groceries", amount: 54.23, category: "Food", date: "10-10-2025" },
@@ -12,9 +16,27 @@ const expenses = [
 	{ id: 9, name: "Amazon Order", amount: 63.47, category: "Shopping", date: "10-11-2025" },
 	{ id: 10, name: "Phone Bill", amount: 60.0, category: "Utilities", date: "10-07-2025" },
 ];
+
 //Sort data by amount from highest to lowest
-expenses.sort((a, b) => a.amount - b.amount);
+amountSortBtn.addEventListener("click", () => {
+	expenses.sort((a, b) => a.amount - b.amount);
+});
+
 //Sort data by category
+categorySortBtn.addEventListener("click", () => {
+	expenses.sort((a, b) => {
+		const categoryA = a.category.toUpperCase();
+		const categoryB = b.category.toUpperCase();
+
+		if (categoryA < categoryB) {
+			return -1;
+		} else if (categoryA > categoryB) {
+			return 1;
+		} else {
+			return 0;
+		}
+	});
+});
 
 //Sort data by date
 
