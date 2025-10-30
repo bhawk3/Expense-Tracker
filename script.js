@@ -3,6 +3,7 @@
 const table = document.getElementById("table-body");
 const categorySortBtn = document.getElementById("category-btn");
 const amountSortBtn = document.getElementById("amount-btn");
+const dateSortBtn = document.getElementById("date-btn");
 
 const expenses = [
 	{ id: 1, name: "Groceries", amount: 54.23, category: "Food", date: "10-10-2025" },
@@ -42,6 +43,12 @@ categorySortBtn.addEventListener("click", () => {
 });
 
 //Sort data by date
+dateSortBtn.addEventListener("click", () => {
+	expenses.sort((a, b) => {
+		return new Date(a.date) - new Date(b.date);
+	});
+	renderTable();
+});
 
 //Display data to the DOM
 function renderTable() {
