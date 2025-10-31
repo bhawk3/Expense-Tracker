@@ -17,17 +17,21 @@ const expenses = [
 	{ id: 9, name: "Amazon Order", amount: 63.47, category: "Shopping", date: "10-11-2025" },
 	{ id: 10, name: "Phone Bill", amount: 60.0, category: "Utilities", date: "10-07-2025" },
 ];
-renderTable();
 
+localStorage.setItem("expenses", JSON.stringify(expenses));
+let storedExpenses = JSON.parse(localStorage.getItem("expenses"));
+
+renderTable();
 //Sort data by amount from highest to lowest
 amountSortBtn.addEventListener("click", () => {
-	expenses.sort((a, b) => a.amount - b.amount);
+	storedExpenses.sort((a, b) => a.amount - b.amount);
 	renderTable();
+	localStorage.setItem("expenses", JSON.stringify(storedExpenses));
 });
 
 //Sort data by category
 categorySortBtn.addEventListener("click", () => {
-	expenses.sort((a, b) => {
+	storedExpenses.sort((a, b) => {
 		const categoryA = a.category.toUpperCase();
 		const categoryB = b.category.toUpperCase();
 
@@ -44,7 +48,7 @@ categorySortBtn.addEventListener("click", () => {
 
 //Sort data by date
 dateSortBtn.addEventListener("click", () => {
-	expenses.sort((a, b) => {
+	storedExpenses.sort((a, b) => {
 		return new Date(a.date) - new Date(b.date);
 	});
 	renderTable();
@@ -53,7 +57,7 @@ dateSortBtn.addEventListener("click", () => {
 //Display data to the DOM
 function renderTable() {
 	table.innerHTML = "";
-	expenses.forEach((item) => {
+	storedExpenses.forEach((item) => {
 		table.innerHTML += `
     <tr>
         <td>${item.category}</td>
