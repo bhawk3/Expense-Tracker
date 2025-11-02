@@ -18,46 +18,21 @@ const expenses = [
 	{ id: 10, name: "Phone Bill", amount: 60.0, category: "Utilities", date: "10-07-2025" },
 ];
 
-localStorage.setItem("expenses", JSON.stringify(expenses));
-let storedExpenses = JSON.parse(localStorage.getItem("expenses"));
+//localStorage.setItem("expenses", JSON.stringify(expenses));
+//let storedExpenses = JSON.parse(localStorage.getItem("expenses"));
 
-renderTable();
-//Sort data by amount from highest to lowest
-amountSortBtn.addEventListener("click", () => {
-	storedExpenses.sort((a, b) => a.amount - b.amount);
-	renderTable();
-	localStorage.setItem("expenses", JSON.stringify(storedExpenses));
-});
+if (!localStorage.getItem("expenses")) {
+	localStorage.setItem("expenses", JSON.stringify(expenses));
+}
 
-//Sort data by category
-categorySortBtn.addEventListener("click", () => {
-	storedExpenses.sort((a, b) => {
-		const categoryA = a.category.toUpperCase();
-		const categoryB = b.category.toUpperCase();
-
-		if (categoryA < categoryB) {
-			return -1;
-		} else if (categoryA > categoryB) {
-			return 1;
-		} else {
-			return 0;
-		}
-	});
-	renderTable();
-});
-
-//Sort data by date
-dateSortBtn.addEventListener("click", () => {
-	storedExpenses.sort((a, b) => {
-		return new Date(a.date) - new Date(b.date);
-	});
-	renderTable();
-});
+function getExpenses() {
+	return JSON.parse(localStorage.getItem("expenses"));
+}
 
 //Display data to the DOM
-function renderTable() {
+function renderTable(data) {
 	table.innerHTML = "";
-	storedExpenses.forEach((item) => {
+	data.forEach((item) => {
 		table.innerHTML += `
     <tr>
         <td>${item.category}</td>
@@ -67,3 +42,28 @@ function renderTable() {
     </tr>`;
 	});
 }
+
+renderTable(getExpenses());
+
+//Sort data by amount from highest to lowest
+amountSortBtn.addEventListener("click", () => {
+	//	localStorage.setItem("expenses", JSON.stringify(storedExpenses));
+	let sorted = getExpenses().sort((a, b) => a.amount - b.amount);
+	//localStorage.setItem("expenses", JSON.stringify(expenses));
+	localStorage.setItem("expenses", JSON.stringify(sorted));
+	renderTable(sorted);
+});
+
+//Sort data by category
+categorySortBtn.addEventListener("click", () => {
+	let sorted = getExpenses().sort((a, b) => a.category.localeCompare(b.category));
+	localStorage.setItem("expenses", JSON.stringify(sorted));
+	renderTable(sorted);
+});
+
+//Sort data by date
+dateSortBtn.addEventListener("click", () => {
+	let sorted = getExpenses().sort((a, b) => new Date(a.date) - new Date(b.date));
+	localStorage.setItem("expenses", JSON.stringify(sorted));
+	renderTable(sorted);
+});
